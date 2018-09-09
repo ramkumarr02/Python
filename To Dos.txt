@@ -1,0 +1,28 @@
+4. Python 3 notes for map, reduce and filter
+
+
+----------------------------------------------------
+
+1. Python
+2. Algebra (Linear)
+3. Calculus (Differential and Integral)
+4. Probability and Statistics
+5. R & Data analysis
+6. SQL - MySQL
+7. Mongo DB
+8. Hadoop, Hive, PIG
+9. Machine learning
+10. NLP
+
+
+Technical Skills :
+•Programming Languages: Java, C++
+•Database: Mongo DB, MYSQL.
+•Operating Systems: Windows, Linux, Unix
+•Development Tools: Eclipse, IntelliJ, Visual Studio
+•Web Technologies: HTML5, CSS3, JavaScript, Angular.js , High Charts.
+•Big Data: Hadoop, HDFS, Hive, Pig, Hortonworks Data Platform
+• Frameworks: Spring MVC, Express
+•Cloud Platforms: Pivotal Web Services, OpenShift, Amazon Web Services
+•Web App Servers: Apache web server, Oracle HTTP Server, Oracle Weblogic App Server.
+•Tools: VMWare ESXi, vSphere, vClient, Docker, Salesforce, Selenium, Neoload, Bugzilla, HP QC, Appium, SVN, Github, Jira, Astah Professional.
