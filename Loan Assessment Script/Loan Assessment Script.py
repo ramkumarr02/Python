@@ -17,8 +17,8 @@ predictors = np.delete(predictors,0)
 
 train.count()
 
-
-
-train_dummy = pd.get_dummies(train,dummy_na=True)
-
+train_dummy = pd.get_dummies(train[predictors],dummy_na=True)
 train_dummy.count()
+
+from fancyimpute import IterativeImputer
+from fancyimpute import KNN
