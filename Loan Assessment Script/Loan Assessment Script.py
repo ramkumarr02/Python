@@ -5,7 +5,11 @@ Loan Assessment
 
 import numpy as np
 import pandas as pd
+from fancyimpute import IterativeImputer
+from fancyimpute import KNN
 
+
+pwd
 train = pd.read_csv("loan_train.csv")
 print(train.head(5))
 print(train.describe())
@@ -20,5 +24,3 @@ train.count()
 train_dummy = pd.get_dummies(train[predictors],dummy_na=True)
 train_dummy.count()
 
-from fancyimpute import IterativeImputer
-from fancyimpute import KNN
