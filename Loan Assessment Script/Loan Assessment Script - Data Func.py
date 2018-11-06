@@ -21,38 +21,47 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 train = pd.read_csv("loan_train.csv")
 train.head()
 
+test = pd.read_csv("loan_test.csv")
+test.head()
 
-# Removing Loan Id and Loan Status for One-Hot encoding and Imputation
-# ########################################################
-predictors = train.columns
-predictors[1]
-predictors = np.delete(predictors,0)
-predictors = np.delete(predictors,-1)
-train[predictors]
+def Data_prep(df):
+    # Removing Loan Id and Loan Status for One-Hot encoding and Imputation
+    # ########################################################
+    predictors = df.columns
+    predictors[1]
+    predictors = np.delete(predictors,0)
+    predictors = np.delete(predictors,-1)
+    df[predictors]
+    
+    # One-Hot Encoding
+    # ########################################################
+    df_dummy = pd.get_dummies(df[predictors],dummy_na = True)
+    df_dummy
+    df_dummy.count()
+    df_dummy.head()
+    newcols = df_dummy.columns
+    newcols
+    
+    # Data Imputations
+    # ########################################################
+    from fancyimpute import IterativeImputer
+    df_imputed = IterativeImputer().fit_transform(df_dummy)
+    df_imputed = pd.DataFrame(df_imputed,columns = newcols)
+    df_imputed.head()
+    df_imputed.count()
 
-# One-Hot Encoding
-# ########################################################
-train_dummy = pd.get_dummies(train[predictors],dummy_na = True)
-train_dummy
-train_dummy.count()
-train_dummy.head()
-newcols = train_dummy.columns
-newcols
+    # Adding Loan Id and Loan Status back again to Data
+    # ########################################################
+    df_imputed['Loan_Status'] = df['Loan_Status']
+    df_imputed.head()
+    df_imputed['Loan_Status'] = df_imputed.Loan_Status.map(dict(Y=1,N=0))
+    #df_imputed.to_csv("df_imputed.csv",sep=',')
+    return(df_imputed)
+    
 
-# Data Imputations
-# ########################################################
-from fancyimpute import IterativeImputer
-train_imputed = IterativeImputer().fit_transform(train_dummy)
-train_imputed = pd.DataFrame(train_imputed,columns = newcols)
+train_imputed = Data_prep(train)
+
 train_imputed.head()
-train_imputed.count()
-
-# Adding Loan Id and Loan Status back again to Data
-# ########################################################
-train_imputed['Loan_Status'] = train['Loan_Status']
-train_imputed.head()
-train_imputed['Loan_Status'] = train_imputed.Loan_Status.map(dict(Y=1,N=0))
-#train_imputed.to_csv("train_imputed.csv",sep=',')
 
 # Split DataFrame into Train and Test sets
 # ########################################################
@@ -70,9 +79,7 @@ data_test.count()
 from sklearn import linear_model
 
 model = linear_model.LinearRegression()
-
 model.fit()
-
 
 from sklearn.metrics import mean_squared_error, r2_score
 
