@@ -44,6 +44,12 @@ train_imputed['Loan_Status'] = train_imputed.Loan_Status.map(dict(Y=1,N=0))
 #train_imputed.to_csv("train_imputed.csv",sep=',')
 
 # Data split
-#msk = np.random.rand(len(train_imputed))<0.8
-np.random.rand(len(train_imputed)).count()
+msk = np.random.rand(len(train_imputed))<0.8
+msk
+
+data_train = train_imputed[msk]
+data_test = train_imputed[~msk]
+
+data_train.count()
+data_test.count()
 
