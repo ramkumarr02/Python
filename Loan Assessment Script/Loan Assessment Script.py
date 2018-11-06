@@ -21,6 +21,7 @@ train.head()
 predictors = train.columns
 predictors[1]
 predictors = np.delete(predictors,0)
+predictors = np.delete(predictors,-1)
 train[predictors]
 
 train_dummy = pd.get_dummies(train[predictors],dummy_na = True)
@@ -36,34 +37,9 @@ train_imputed = pd.DataFrame(train_imputed,columns = newcols)
 train_imputed.head()
 train_imputed.count()
 
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn import datasets, linear_model
-from sklearn.metrics import mean_squared_error, r2_score
 
-# Load the diabetes dataset
-diabetes = datasets.load_diabetes()
-type(diabetes)
+train_imputed['Loan_Status'] = train['Loan_Status']
+train_imputed.head()
 
-# Use only one feature
-diabetes_X = diabetes.data[:, np.newaxis, 2]
-type(diabetes_X)
-len(diabetes_X)
-
-# Split the data into training/testing sets
-diabetes_X_train = diabetes_X[:-20]
-diabetes_X_test = diabetes_X[-20:]
-len(diabetes_X_train)
-len(diabetes_X_test)
-
-# Split the targets into training/testing sets
-diabetes_y_train = diabetes.target[:-20]
-diabetes_y_test = diabetes.target[-20:]
-len(diabetes.target)
-len(diabetes_y_train)
-len(diabetes_y_test)
-
-diabetes.data_filename
-diabetes.target_filename
-
+train_imputed['Loan_Status'] = train_imputed.Loan_Status.map(dict(Y=1,N=0))
 
