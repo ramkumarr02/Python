@@ -23,18 +23,21 @@ train.head()
 
 test = pd.read_csv("loan_test.csv")
 test.head()
-
+test.count
 
 # Data Prep Function
 # ########################################################################
 
-def Data_prep(df):
+def Data_prep(df,flag):
     # Removing Loan Id and Loan Status for One-Hot encoding and Imputation
     # ########################################################
     predictors = df.columns
     predictors[1]
-    predictors = np.delete(predictors,0)
-    predictors = np.delete(predictors,-1)
+    predictors = np.delete(predictors,0)    
+    if flag != 1:
+        predictors = np.delete(predictors,-1)
+        print("train module flag 0")
+        flag = 1
     df[predictors]
     
     # One-Hot Encoding
@@ -56,9 +59,9 @@ def Data_prep(df):
 
     return(df_imputed)
     
-train_imputed = Data_prep(train)
+train_imputed = Data_prep(train,0)
 
-# Adding Loan Id and Loan Status back again to Data
+# Adding Loan Status back again to Data
 # ########################################################
 train_imputed['Loan_Status'] = train['Loan_Status']
 train_imputed.head()
@@ -66,10 +69,14 @@ train_imputed['Loan_Status'] = train_imputed.Loan_Status.map(dict(Y=1,N=0))
 #train_imputed.to_csv("train_imputed.csv",sep=',')
 
 
-test_imputed = Data_prep(test)
+test_imputed = Data_prep(test,1)
 
 train_imputed.head()
 test_imputed.head()
+
+train_imputed.columns
+test_imputed.columns
+
 
 # Split DataFrame into Train and Test sets
 # ########################################################
@@ -92,9 +99,25 @@ from sklearn import linear_model
 
 model = linear_model.LinearRegression()
 model.fit(data_train[predictors],data_train[target])
-
 model.coef_
 
 
-from sklearn.metrics import mean_squared_error, r2_score
+# Predicting Internal Data test set
+# ########################################################
+data_train_predictions = model.predict(data_test[predictors])
+data_train_predictions = np.where(data_train_predictions > 0.5,1,0)
 
+from sklearn.metrics import mean_squared_error
+mean_squared_error(data_test.Loan_Status,data_train_predictions)
+
+
+pd.crosstab(data_test.Loan_Status,data_train_predictions)
+
+from sklearn.metrics import r2_score
+r2_score(data_test.Loan_Status,data_train_predictions)
+
+# Predicting External Data test set
+# ########################################################
+data_test_predictions = model.predict(test_imputed[predictors])
+data_test_predictions = np.where(data_test_predictions > 0.5,1,0)
+len(data_test_predictions)
