@@ -93,7 +93,7 @@ from sklearn import linear_model
 model = linear_model.LinearRegression()
 model.fit(data_train[predictors],data_train[target])
 
-model.coeff
+model.coef_
 
 
 from sklearn.metrics import mean_squared_error, r2_score
