@@ -24,6 +24,10 @@ train.head()
 test = pd.read_csv("loan_test.csv")
 test.head()
 
+
+# Data Prep Function
+# ########################################################################
+
 def Data_prep(df):
     # Removing Loan Id and Loan Status for One-Hot encoding and Imputation
     # ########################################################
@@ -50,36 +54,47 @@ def Data_prep(df):
     df_imputed.head()
     df_imputed.count()
 
-    # Adding Loan Id and Loan Status back again to Data
-    # ########################################################
-    df_imputed['Loan_Status'] = df['Loan_Status']
-    df_imputed.head()
-    df_imputed['Loan_Status'] = df_imputed.Loan_Status.map(dict(Y=1,N=0))
-    #df_imputed.to_csv("df_imputed.csv",sep=',')
     return(df_imputed)
     
-
 train_imputed = Data_prep(train)
 
+# Adding Loan Id and Loan Status back again to Data
+# ########################################################
+train_imputed['Loan_Status'] = train['Loan_Status']
 train_imputed.head()
+train_imputed['Loan_Status'] = train_imputed.Loan_Status.map(dict(Y=1,N=0))
+#train_imputed.to_csv("train_imputed.csv",sep=',')
+
+
+test_imputed = Data_prep(test)
+
+train_imputed.head()
+test_imputed.head()
 
 # Split DataFrame into Train and Test sets
 # ########################################################
-msk = np.random.rand(len(train_imputed))<0.8
-msk
+random_numbers = np.random.rand(len(train_imputed))<0.8
+random_numbers
 
-data_train = train_imputed[msk]
-data_test = train_imputed[~msk]
+data_train = train_imputed[random_numbers]
+data_test = train_imputed[~random_numbers]
 
 data_train.count()
 data_test.count()
+
+predictors = data_train.columns
+predictors = np.delete(predictors,-1)
+target = data_train.columns[-1]
 
 # Data Modelling
 # ########################################################
 from sklearn import linear_model
 
 model = linear_model.LinearRegression()
-model.fit()
+model.fit(data_train[predictors],data_train[target])
+
+model.coeff
+
 
 from sklearn.metrics import mean_squared_error, r2_score
 
