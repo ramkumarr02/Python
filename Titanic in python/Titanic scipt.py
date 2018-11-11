@@ -25,7 +25,9 @@ test = pd.read_csv("test.csv")
 test.head()
 test.count
 
-# Data Prep Function
-# ########################################################################
+pd.plotting.scatter_matrix(train, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
 
- ;
+predictors = list(train.columns.values)
+type(predictors)
+predictors = predictors.remove('Fare')
+
