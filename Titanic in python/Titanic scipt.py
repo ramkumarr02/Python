@@ -25,8 +25,6 @@ test = pd.read_csv("test.csv")
 test.head()
 test.count
 
-df = train
-
 # Data Prep Function
 # ########################################################################
 
