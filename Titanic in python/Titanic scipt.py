@@ -28,8 +28,15 @@ test.count()
 #pd.plotting.scatter_matrix(train, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
 
 predictors = list(train)
-type(predictors)
+predictors.remove('PassengerId')
 
-predictors.index('Fare')
+from sklearn.linear_model import LogisticRegression
 
-        
+LogisticRegression.fit(train[predictors],train['Survived'])
+
+train_predictors = train[predictors]
+train_outcome = train['Survived']
+
+
+
+def modelling(model,data,predictors):
