@@ -32,11 +32,10 @@ predictors.remove('PassengerId')
 
 from sklearn.linear_model import LogisticRegression
 
-LogisticRegression.fit(train[predictors],train['Survived'])
+LogisticRegression().fit(train['Age'],train['Survived'])
 
-train_predictors = train[predictors]
-train_outcome = train['Survived']
-
+outcome = train['Survived'].reshape(-1,1)
+train_outcome = outcome.iloc[train]
 
 
 def modelling(model,data,predictors):
