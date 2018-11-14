@@ -29,10 +29,13 @@ test.count()
 
 predictors = list(train)
 predictors.remove('PassengerId')
+predictors = ['Age']
+outcome = ['Survived']
+
 
 from sklearn.linear_model import LogisticRegression
 
-LogisticRegression().fit(train['Age'],train['Survived'])
+LogisticRegression().fit(train[predictors],train[outcome])
 
 outcome = train['Survived'].reshape(-1,1)
 train_outcome = outcome.iloc[train]
