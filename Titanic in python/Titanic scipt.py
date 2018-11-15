@@ -27,6 +27,16 @@ test.count()
 
 from sklearn.linear_model import LogisticRegression
 
+
 def modelling(model,data,pred_var,out_var):
     model.fit(data[pred_var],data[out_var])
     model
+    
+model = LogisticRegression()
+
+predictor = ['Pclass']
+outcome = ['Survived']
+
+modelling(model, train, predictor,outcome)
+
+
