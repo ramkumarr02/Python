@@ -25,20 +25,8 @@ test = pd.read_csv("test.csv")
 test.head()
 test.count()
 
-#pd.plotting.scatter_matrix(train, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
-
-predictors = list(train)
-predictors.remove('PassengerId')
-predictors = ['Age']
-outcome = ['Survived']
-
-
 from sklearn.linear_model import LogisticRegression
 
-LogisticRegression().fit(train[predictors],train[outcome])
-
-outcome = train['Survived'].reshape(-1,1)
-train_outcome = outcome.iloc[train]
-
-
-def modelling(model,data,predictors):
+def modelling(model,data,pred_var,out_var):
+    model.fit(data[pred_var],data[out_var])
+    model
